@@ -4,12 +4,12 @@ Keyboard.js
 *You can also use it to control an object with the keyboard (adapted for video games)*
 
 ## Basic use ##
-You can add event listeners on your keys by using the `addKeyListener()` method  
+You can add event listeners on your keys by using the `on()` method  
 
-    Keyboard.addKeyListener('keydown', 'P', function () {
+    Keyboard.on('keydown', 'P', function () {
         console.log('P was pressed');  
     });  
-    Keyboard.addKeyListener('keyup', 'BACKSPACE', function () {  
+    Keyboard.on('keyup', 'BACKSPACE', function () {  
         console.log('BACKSPACE was released');  
     });
 *You can find a* [list of all the keys](#keys-list) *at the bottom of the page*

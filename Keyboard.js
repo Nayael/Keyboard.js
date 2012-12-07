@@ -205,7 +205,7 @@
 		 * @param key	The key which event will be listened to
 		 * @param listener	function: The function to trigger on the event
 		 */
-		addKeyListener: function(event, key, listener) {
+		on: function(event, key, listener) {
 			if (_Keyboard.listeners == undefined) {
 				// We create the list of listeners
 				_Keyboard.listeners = {
