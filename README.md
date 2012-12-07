@@ -12,3 +12,18 @@ You can add event listeners on your keys by using the `addKeyListener()` method
     Keyboard.addKeyListener('keyup', 'BACKSPACE', function () {  
         console.log('The key BACKSPACE was released');  
     });
+  
+## Advanced use ##
+If you want to associate specific controls to an object, you can define a `controls` property on your object
+  
+    this.controls = {
+        LEFT: myFunction,
+        SHIFT: myFunction2,
+        TAB: myFunction3
+    };
+
+And call the `makeControllable()` method
+
+    Keyboard.makeControllable(this); // Making the object controllable with the Keyboard
+  
+Then, call the `checkControls()` method on your object to apply the pressed keys (in your game main loop for instance)
