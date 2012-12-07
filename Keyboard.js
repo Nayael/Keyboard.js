@@ -226,4 +226,4 @@
 		}
 	};
 	window.Keyboard = _Keyboard.init();
-});
+})(window);
