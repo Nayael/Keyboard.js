@@ -38,8 +38,8 @@ Instead of using the default keys labels *(see [keys list](#keys-list))*, you ca
 In order to do that, use the `bindKeys()` method. You can use an array or a string to define a match:
   
     Keyboard.bindKeys({
-        upKeys:   ['LEFT_ARROW', 'Q'],
-        right:    'RIGHT_ARROW',
+        upKeys:     ['LEFT_ARROW', 'Q'],
+        right:      'RIGHT_ARROW',
         submitKeys: ['ENTER', 'ESCAPE']
     });
   
@@ -81,7 +81,7 @@ Then use them like regular keys with the other methods:
     KEY_3       |   X   |   F6                  |
     KEY_4       |   Y   |   F7                  |
     KEY_5       |   Z   |   F8                  |
-    KEY_6       |           F9                  |
-    KEY_7       |           F10                 |
-    KEY_8       |           F11                 |
-    KEY_9       |           F12                 |
+    KEY_6       |       |   F9                  |
+    KEY_7       |       |   F10                 |
+    KEY_8       |       |   F11                 |
+    KEY_9       |       |   F12                 |
