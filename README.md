@@ -7,10 +7,10 @@ Keyboard.js
 You can add event listeners on your keys by using the `addKeyListener()` method  
 
     Keyboard.addKeyListener('keydown', 'P', function () {
-        console.log('The key P is pressed');  
+        console.log('P was pressed');  
     });  
     Keyboard.addKeyListener('keyup', 'BACKSPACE', function () {  
-        console.log('The key BACKSPACE was released');  
+        console.log('BACKSPACE was released');  
     });
 *You can find a* [list of all the keys](#keys-list) *on the bottom of the page*
   
@@ -34,7 +34,7 @@ Then, call the `checkControls()` method on your object to apply the pressed keys
     }
   
 ## Advanced Configuration ##
-Instead of using the default keys labels (*see [keys list](#keys-list)*), you can define your own labels, affected to one or several keys.  
+Instead of using the default keys labels *(see [keys list](#keys-list))*, you can define your own labels, affected to one or several keys.  
 In order to do that, use the `bindKeys()` method. You can use an array or a string to define a match:
   
     Keyboard.bindKeys({
