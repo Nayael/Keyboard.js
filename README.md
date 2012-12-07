@@ -1,6 +1,6 @@
 Keyboard.js
 ==============
-*This library allows you to easily handle all the keyboard events on your page.*
+*This library allows you to easily handle all the keyboard events on your page.*  
 *You can also use it to control an object with the keyboard (adapted for video games)*
 
 ## Basic use ##
@@ -12,7 +12,7 @@ You can add event listeners on your keys by using the `addKeyListener()` method
     Keyboard.addKeyListener('keyup', 'BACKSPACE', function () {  
         console.log('BACKSPACE was released');  
     });
-*You can find a* [list of all the keys](#keys-list) *on the bottom of the page*
+*You can find a* [list of all the keys](#keys-list) *at the bottom of the page*
   
 ## Advanced use ##
 If you want to associate specific controls to an object, you can define a `controls` property on your object
