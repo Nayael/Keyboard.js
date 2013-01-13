@@ -12,6 +12,15 @@ You can add event listeners on your keys by using the `on()` method
     Keyboard.on('keyup', 'BACKSPACE', function () {  
         console.log('BACKSPACE was released');  
     });
+
+Remove them with the `remove()` method  
+
+    function logError() {
+        console.log('P was pressed');  
+    }
+    Keyboard.on('keydown', 'P', logError);
+    Keyboard.remove('keydown', 'P', logError);
+
 *You can find a* [list of all the keys](#keys-list) *at the bottom of the page*
   
 ## Advanced use ##

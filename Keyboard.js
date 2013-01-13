@@ -223,6 +223,32 @@
 				realKey = _Keyboard[key];
 				_Keyboard.listeners[event][realKey] = listener;	// We add the listeners for each key associated with the custom key
 			}
+		},
+
+		/**
+		 * Removes the listeners to a list of keys
+		 * @param event	string: The event to listen to ('up' or 'down')
+		 * @param key	The key which event will be listened to
+		 * @param listener	function: The function to trigger on the event
+		 */
+		remove: function(event, key, listener) {
+			if (_Keyboard.listeners == undefined) {
+				return;
+			}
+			// If the custom keys are defined
+			if (_Keyboard.customKeys != undefined && _Keyboard.customKeys[key] != undefined) {
+				for (var i = 0; i < _Keyboard.customKeys[key].length; i++) {
+					realKey = _Keyboard.customKeys[key][i];
+					if (_Keyboard.listeners[event][realKey]) {
+						delete _Keyboard.listeners[event][realKey];
+					}
+				};
+			}else if (key in _Keyboard) {
+				realKey = _Keyboard[key];
+				if (_Keyboard.listeners[event][realKey]) {
+					delete _Keyboard.listeners[event][realKey];
+				}
+			}
 		}
 	};
 	window.Keyboard = _Keyboard.init();
