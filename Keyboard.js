@@ -183,14 +183,14 @@
 							for (var i = 0, realKey; i < _Keyboard.customKeys[key].length; i++) {
 								realKey = _Keyboard.customKeys[key][i];
 								if ((realKey in _Keyboard.keysPressed) && _Keyboard.callbacks.hasOwnProperty(realKey) && called[key] == undefined) {	// If the key from the object controls is pressed
-									_Keyboard.callbacks[realKey]();	// We call the associated function
+									_Keyboard.callbacks[realKey].apply(obj);	// We call the associated function
 									called[key] = true;
 								}
 							};
 						}else if (key in _Keyboard) {
 							realKey = _Keyboard[key];
 							if ((realKey in _Keyboard.keysPressed) && _Keyboard.callbacks.hasOwnProperty(realKey) && called[key] == undefined) {	// If the key from the object controls is pressed
-								_Keyboard.callbacks[realKey]();	// We call the associated function
+								_Keyboard.callbacks[realKey].apply(obj);	// We call the associated function
 								called[key] = true;
 							}
 						}
