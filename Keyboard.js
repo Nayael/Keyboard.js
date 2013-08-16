@@ -109,11 +109,15 @@
         CLOSE_BRAKET: 221,
         SINGLE_QUOTE: 222,
 
+        Event_KEY_DOWN: 'keydown',
+        Event_KEY_UP: 'keyup',
+        Event_KEY_PRESS: 'keypress',
+
         keysPressed: {},
         callbacks: {},
 
         init: function() {
-            addEventListener('keydown', function(e) {
+            addEventListener(Keyboard.Event_KEY_DOWN, function(e) {
                 if (_Keyboard.listeners != undefined) {
                     // We execute the keydown listener for the current key
                     var listener = _Keyboard.listeners.keydown[e.keyCode];
@@ -125,7 +129,7 @@
                 _Keyboard.keysPressed[e.keyCode] = true;
             }, false);
 
-            addEventListener('keyup', function(e) {
+            addEventListener(Keyboard.Event_KEY_UP, function(e) {
                 if (_Keyboard.listeners != undefined) {
                     // We execute the keyup listener for the current key
                     var listener = _Keyboard.listeners.keyup[e.keyCode];
@@ -217,7 +221,7 @@
 
         isUp: function(key) {
             if (key == undefined) {
-                return !_Keyboard.isDown();
+                return !_Keyboard.isDown(key);
             }
             if (!_Keyboard.keysPressed[key]) {
                 return true;
