@@ -117,24 +117,24 @@
         callbacks: {},
 
         init: function() {
-            addEventListener('keydown', function(e) {
+            addEventListener(_Keyboard.Event_KEY_DOWN, function(e) {
                 if (_Keyboard.listeners != undefined) {
                     // We execute the keydown listener for the current key
                     var listener = _Keyboard.listeners.keydown[e.keyCode];
                     if (listener != undefined) {            
-                        listener();
+                        listener(e);
                     }
                 }
 
                 _Keyboard.keysPressed[e.keyCode] = true;
             }, false);
 
-            addEventListener('keyup', function(e) {
+            addEventListener(_Keyboard.Event_KEY_UP, function(e) {
                 if (_Keyboard.listeners != undefined) {
                     // We execute the keyup listener for the current key
                     var listener = _Keyboard.listeners.keyup[e.keyCode];
                     if (listener != undefined) {            
-                        listener();
+                        listener(e);
                     }
                 }
 
@@ -145,7 +145,7 @@
         
         /**
          * Binds a given string to one or more keys of the keyboard
-         * @param customKeys    obj: The custom labels and their associated keyboard keys
+         * @param {Object} customKeys    The custom labels and their associated keyboard keys
          */
         bindKeys: function(customKeys) {
             _Keyboard.callbacks = {};   // We reset the key listeners
@@ -164,7 +164,7 @@
 
         /**
          * Makes an object controllable with the keyboard
-         * @param obj   The object to make controllable
+         * @param {Object} obj   The object to make controllable
          */
         makeControllable: function(obj) {
             if (obj.hasOwnProperty('controls')) {
@@ -174,7 +174,7 @@
                             realKey = _Keyboard.customKeys[key][i];
                             _Keyboard.callbacks[realKey] = obj.controls[key];   // We get the callbacks from the object one by one
                         };
-                    }else if (key in _Keyboard) {
+                    } else if (key in _Keyboard) {
                         realKey = _Keyboard[key];
                         _Keyboard.callbacks[realKey] = obj.controls[key];   // We get the callbacks from the object one by one
                     }
@@ -182,16 +182,17 @@
 
                 obj.checkControls = function() {
                     var called = {};    // A list of the currently executed callbacks (in order to call them only once)
+                    var realKey = null;
                     for (var key in obj.controls) {
                         if (_Keyboard.customKeys != undefined && _Keyboard.customKeys[key] != undefined) {
-                            for (var i = 0, realKey; i < _Keyboard.customKeys[key].length; i++) {
+                            for (var i = 0; i < _Keyboard.customKeys[key].length; i++) {
                                 realKey = _Keyboard.customKeys[key][i];
                                 if ((realKey in _Keyboard.keysPressed) && _Keyboard.callbacks.hasOwnProperty(realKey) && called[key] == undefined) {    // If the key from the object controls is pressed
                                     _Keyboard.callbacks[realKey].apply(obj);    // We call the associated function
                                     called[key] = true;
                                 }
                             };
-                        }else if (key in _Keyboard) {
+                        } else if (key in _Keyboard) {
                             realKey = _Keyboard[key];
                             if ((realKey in _Keyboard.keysPressed) && _Keyboard.callbacks.hasOwnProperty(realKey) && called[key] == undefined) {    // If the key from the object controls is pressed
                                 _Keyboard.callbacks[realKey].apply(obj);    // We call the associated function
@@ -231,11 +232,13 @@
 
         /**
          * Adds the listeners to a list of keys
-         * @param event string: The event to listen to ('up' or 'down')
-         * @param key   The key which event will be listened to
-         * @param listener  function: The function to trigger on the event
+         * @param {String} event        The event to listen to ('up' or 'down')
+         * @param {String|Number} key   The key which event will be listened to
+         * @param {Function} listener   The function to trigger on the event
          */
         on: function(event, key, listener) {
+            var realKey = null;
+
             if (_Keyboard.listeners == undefined) {
                 // We create the list of listeners
                 _Keyboard.listeners = {
@@ -249,22 +252,31 @@
                     realKey = _Keyboard.customKeys[key][i];
                     _Keyboard.listeners[event][realKey] = listener; // We add the listeners for each key associated with the custom key
                 };
-            }else if (key in _Keyboard) {
+            } else if (key in _Keyboard) {
                 realKey = _Keyboard[key];
-                _Keyboard.listeners[event][realKey] = listener; // We add the listeners for each key associated with the custom key
+                _Keyboard.listeners[event][realKey] = listener;     // We add the listener for the key
+            } else if (typeof key == 'number') {
+                for (var keyLabel in _Keyboard) {
+                    if (_Keyboard.hasOwnProperty(keyLabel) && _Keyboard[keyLabel] == key) {
+                        _Keyboard.listeners[event][key] = listener; // We add the listener for the key
+                        break;
+                    }
+                }
             }
         },
 
         /**
          * Removes the listeners to a list of keys
-         * @param event string: The event to listen to ('up' or 'down')
-         * @param key   The key which event will be listened to
-         * @param listener  function: The function to trigger on the event
+         * @param  {String} event       The type of event to stop listening
+         * @param  {String|Number} key  The key to stop listening
+         * @param  {Function} listener  The callback to remove
          */
         remove: function(event, key, listener) {
             if (_Keyboard.listeners == undefined) {
                 return;
             }
+            var realKey = null;
+
             // If the custom keys are defined
             if (_Keyboard.customKeys != undefined && _Keyboard.customKeys[key] != undefined) {
                 for (var i = 0; i < _Keyboard.customKeys[key].length; i++) {
@@ -273,9 +285,19 @@
                         delete _Keyboard.listeners[event][realKey];
                     }
                 };
-            }else if (key in _Keyboard) {
-                realKey = _Keyboard[key];
-                if (_Keyboard.listeners[event][realKey]) {
+            } else if (key in _Keyboard || typeof key == 'number') {
+                if (typeof key == 'number') {
+                    for (var keyLabel in _Keyboard) {
+                        if (_Keyboard.hasOwnProperty(keyLabel) && _Keyboard[keyLabel] == key) {
+                            realKey = key;
+                            break;
+                        }
+                    }
+                } else {
+                    realKey = _Keyboard[key];
+                }
+
+                if (realKey !== null && _Keyboard.listeners[event][realKey]) {
                     delete _Keyboard.listeners[event][realKey];
                 }
             }
