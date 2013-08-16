@@ -117,7 +117,7 @@
         callbacks: {},
 
         init: function() {
-            addEventListener(Keyboard.Event_KEY_DOWN, function(e) {
+            addEventListener('keydown', function(e) {
                 if (_Keyboard.listeners != undefined) {
                     // We execute the keydown listener for the current key
                     var listener = _Keyboard.listeners.keydown[e.keyCode];
@@ -129,7 +129,7 @@
                 _Keyboard.keysPressed[e.keyCode] = true;
             }, false);
 
-            addEventListener(Keyboard.Event_KEY_UP, function(e) {
+            addEventListener('keyup', function(e) {
                 if (_Keyboard.listeners != undefined) {
                     // We execute the keyup listener for the current key
                     var listener = _Keyboard.listeners.keyup[e.keyCode];
