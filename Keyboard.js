@@ -122,7 +122,11 @@
                     // We execute the keydown listener for the current key
                     var listener = _Keyboard.listeners.keydown[e.keyCode];
                     if (listener != undefined) {            
-                        listener(e);
+                        if (listener.target) {
+                            listener.call(listener.target, e);
+                        } else {
+                            listener(e);
+                        }
                     }
                 }
 
@@ -134,7 +138,11 @@
                     // We execute the keyup listener for the current key
                     var listener = _Keyboard.listeners.keyup[e.keyCode];
                     if (listener != undefined) {            
-                        listener(e);
+                        if (listener.target) {
+                            listener.call(listener.target, e);
+                        } else {
+                            listener(e);
+                        }
                     }
                 }
 
@@ -235,8 +243,9 @@
          * @param {String} event        The event to listen to ('up' or 'down')
          * @param {String|Number} key   The key which event will be listened to
          * @param {Function} listener   The function to trigger on the event
+         * @param {mixed} target        The "this" argument applied when the listener is called
          */
-        on: function(event, key, listener) {
+        on: function(event, key, listener, target) {
             var realKey = null;
 
             if (_Keyboard.listeners == undefined) {
@@ -246,6 +255,12 @@
                     keydown: {}
                 };
             }
+
+            // If a target is given
+            if (target != undefined) {
+                listener.target = target;
+            }
+
             // If the custom keys are defined
             if (_Keyboard.customKeys != undefined && _Keyboard.customKeys[key] != undefined) {
                 for (var i = 0; i < _Keyboard.customKeys[key].length; i++) {
